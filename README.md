@@ -5,7 +5,7 @@
 <h1 align="center">Sleek School Schedule</h1>
 
 <p align="center">
-  A clean school timetable for Home Assistant: set it up in the dashboard, see the current lesson at a glance, and use it in automations.
+  A school timetable for Home Assistant that is easy to set up and looks good on any dashboard.
 </p>
 
 <p align="center">
@@ -21,16 +21,21 @@
 
 ## Features
 
-- **Edit everything in the card editor.** No YAML, no config flow marathon: time grid, subjects and afternoon activities are edited right in the dashboard card editor, with a live preview.
-- **Current lesson highlighted** with a progress bar, also during breaks and afternoon activities.
-- **Afternoon per day.** After-school care, clubs and sports get their own times on each day (e.g. care until 4 pm, then basketball until 5:15 pm), without bloating the time grid.
-- **Several children.** One timetable per child, shown as tabs or as separate cards.
-- **Tap a subject** to highlight all its lessons in the week.
-- **Sensors for automations:** current lesson, next lesson, end of lessons and pickup time.
-- **Automatic colors** per subject, light and dark mode, works on phones, tablets and wall panels.
-- **7 languages:** English, German, French, Dutch, Spanish, Italian and Polish. Weekday names follow your Home Assistant language automatically.
+I wanted our school timetables in Home Assistant. Every integration I tried was either a pain to configure or didn't look good, so I had my own built.
 
-| Afternoon activity running (dark mode) | Tap a subject to highlight it |
+> [!NOTE]
+> The idea and the features are my brainchild, but the code is 100% AI generated. I just want to be transparent about that.
+
+- You set up times, subjects and afternoon activities directly in the card editor of your dashboard, with a live preview.
+- The current lesson is highlighted and shows a progress bar. This also works for breaks and afternoon activities.
+- Afternoon activities can be different on every day, for example after-school club until 4 pm on Thursday and basketball afterwards.
+- One timetable per child, shown as tabs in one card or in separate cards.
+- Tap a subject and you see every lesson of that subject in the week.
+- Sensors for the current lesson, the next lesson, the end of lessons and the pickup time, so you can use the timetable in automations.
+- Every subject gets its own color automatically. Light and dark mode are supported, on phones as well as on tablets.
+- Available in English, German, French, Dutch, Spanish, Italian and Polish.
+
+| Afternoon activity running | Tap a subject to highlight it |
 | --- | --- |
 | ![Afternoon activity running](assets/tablet-afternoon.png) | ![Highlight a subject](assets/tablet-highlight.png) |
 
@@ -105,15 +110,6 @@ All texts live in one JSON file per language:
 - `custom_components/sleek_school_schedule/translations/<language>.json` for the setup dialog and sensor names
 
 To add a language, copy the English files, translate them and open a pull request. Corrections to existing translations are very welcome as well.
-
-## Requirements
-
-- Home Assistant 2024.7 or newer
-- The integration icon is shown from Home Assistant 2026.3 on
-
-## Deutsch
-
-Sleek School Schedule ist ein Stundenplan für Home Assistant. Zeitraster, Fächer und Nachmittagsbetreuung werden direkt im Karteneditor des Dashboards gepflegt, die aktuelle Stunde wird hervorgehoben, und Sensoren für aktuelle Stunde, nächste Stunde, Unterrichtsende und Abholzeit stehen für Automationen bereit. Installation und Einrichtung wie oben beschrieben, die Oberfläche erscheint automatisch auf Deutsch, wenn Home Assistant auf Deutsch eingestellt ist.
 
 ## License
 

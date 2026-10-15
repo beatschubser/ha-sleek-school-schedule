@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- Device mockups for the README.
+     Raw screenshots live in ../raw/, rendered images go to ../ (see scripts/render_mockups.py). -->
+<html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Inter, Roboto, sans-serif; }
+  .stage { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+           background: radial-gradient(1200px 700px at 30% 20%, #e8f1ff 0%, #dfe7f3 45%, #cfd9e8 100%); }
+
+  .tablet { position: relative; background: linear-gradient(145deg, #2b2d31, #121315); border-radius: 46px; padding: 26px;
+            box-shadow: 0 50px 90px -20px rgba(16,24,40,.45), 0 18px 36px -12px rgba(16,24,40,.35), inset 0 0 0 2px rgba(255,255,255,.06); }
+  .tablet::before { content: ""; position: absolute; top: 50%; left: 11px; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #3a3d44; }
+  .tablet.portrait::before { top: 11px; left: 50%; margin: 0 0 0 -3px; }
+  .screen { position: relative; overflow: hidden; border-radius: 18px; }
+  .screen.light { background: #f2f4f7; }
+  .screen.dark { background: #111; }
+  .content { padding: 22px 26px 26px; }
+  .card { border-radius: 14px; overflow: hidden; }
+  .light .card { background: #fafafa; box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 6px 18px rgba(0,0,0,.06); }
+  .dark .card { background: #111; box-shadow: 0 0 0 1px #262629; }
+  .card img, .editor img { display: block; width: 100%; }
+  .editor { background: #fff; }
+  .fade::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 160px; background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 85%); }
+
+  .phone { position: absolute; background: linear-gradient(145deg, #2b2d31, #121315); border-radius: 48px; padding: 13px;
+           box-shadow: 0 40px 70px -18px rgba(16,24,40,.55), inset 0 0 0 2px rgba(255,255,255,.07); }
+  .phone .screen { border-radius: 36px; }
+  .phone .notch { position: absolute; top: 12px; left: 50%; width: 92px; height: 26px; margin-left: -46px; background: #0d0d0e; border-radius: 14px; z-index: 2; }
+  .phone .status { height: 50px; }
+  .phone img { display: block; width: 100%; }
+</style></head>
+<body>
+
+<!-- hero.png: tablet light + phone dark, same moment (Thu 10:40) -->
+<div id="hero" class="stage" style="width:1600px;height:1080px">
+  <div class="tablet" style="width:980px; margin-right:470px">
+    <div class="screen light"><div class="content"><div class="card"><img src="../raw/card-light.png"></div></div></div>
+  </div>
+  <div class="phone" style="width:380px; right:110px; top:190px">
+    <div class="notch"></div>
+    <div class="screen dark" style="height:680px"><div class="status"></div><img src="../raw/phone-dark.png"></div>
+  </div>
+</div>
+
+<!-- tablet-afternoon.png: dark mode, afternoon activity running (Thu 16:30) -->
+<div id="tablet-afternoon" class="stage" style="width:1200px;height:960px">
+  <div class="tablet" style="width:1000px">
+    <div class="screen dark"><div class="content"><div class="card"><img src="../raw/card-dark-afternoon.png"></div></div></div>
+  </div>
+</div>
+
+<!-- tablet-highlight.png: light mode, "Maths" tapped -->
+<div id="tablet-highlight" class="stage" style="width:1200px;height:960px">
+  <div class="tablet" style="width:1000px">
+    <div class="screen light"><div class="content"><div class="card"><img src="../raw/card-highlight.png"></div></div></div>
+  </div>
+</div>
+
+<!-- tablet-editor.png: card editor, portrait tablet, top part -->
+<div id="tablet-editor" class="stage" style="width:1200px;height:1300px">
+  <div class="tablet portrait" style="width:820px">
+    <div class="screen light fade" style="height:1100px"><div class="editor" style="padding:24px 34px"><img src="../raw/editor.png"></div></div>
+  </div>
+</div>
+
+</body></html>

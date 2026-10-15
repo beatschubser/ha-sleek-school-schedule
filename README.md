@@ -17,7 +17,7 @@
 > [!WARNING]
 > **Work in progress.** This integration is under active development and not officially released yet. Features, sensor attributes and settings may still change between versions. Feedback and bug reports are welcome via [issues](https://github.com/beatschubser/ha-sleek-school-schedule/issues).
 
-![Timetable card](assets/screenshot-card.png)
+![Sleek School Schedule on a tablet (light mode) and a phone (dark mode)](assets/hero.png)
 
 ## Features
 
@@ -30,9 +30,9 @@
 - **Automatic colors** per subject, light and dark mode, works on phones, tablets and wall panels.
 - **7 languages:** English, German, French, Dutch, Spanish, Italian and Polish. Weekday names follow your Home Assistant language automatically.
 
-| Dark mode, afternoon activity running | Tap a subject to highlight it |
+| Afternoon activity running (dark mode) | Tap a subject to highlight it |
 | --- | --- |
-| ![Dark mode](assets/screenshot-dark.png) | ![Highlight](assets/screenshot-highlight.png) |
+| ![Afternoon activity running](assets/tablet-afternoon.png) | ![Highlight a subject](assets/tablet-highlight.png) |
 
 ## Installation
 
@@ -66,7 +66,7 @@ The card is registered as a dashboard resource automatically. Only if your dashb
 | `child` | Show only this child (name). Without it, all children are shown as tabs. |
 | `title` | Custom title (only shown when the card displays a single child). |
 
-![Card editor](assets/screenshot-editor.png)
+![Card editor](assets/tablet-editor.png)
 
 ## Sensors
 

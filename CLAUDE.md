@@ -22,7 +22,8 @@ custom_components/sleek_school_schedule/
   brand/icon.png, icon@2x.png              integration icon (shown from HA 2026.3)
 tests/test_logic.py     python3 tests/test_logic.py (no HA needed)
 scripts/bump_version.py sets the version in manifest.json, const.py and the card
-assets/                 README screenshots, icon source
+assets/                 README images (device mockups), raw/ screenshots, mockups/mockups.html, icon source
+scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mockups/mockups.html
 ```
 
 ## Design decisions (do not undo without asking)

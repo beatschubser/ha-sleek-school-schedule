@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/beatschubser/ha-sleek-school-schedule/main/custom_components/sleek_school_schedule/brand/icon.png" width="128" alt="Sleek School Schedule">
+  <img src="custom_components/sleek_school_schedule/brand/icon.png" width="128" alt="Sleek School Schedule">
 </p>
 
 <h1 align="center">Sleek School Schedule</h1>
@@ -10,11 +10,10 @@
 
 <p align="center">
   <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/HACS-Custom-41BDF5.svg" alt="HACS Custom"></a>
-  <a href="https://github.com/beatschubser/ha-sleek-school-schedule/releases"><img src="https://img.shields.io/github/v/release/beatschubser/ha-sleek-school-schedule" alt="Release"></a>
   <a href="https://github.com/beatschubser/ha-sleek-school-schedule/actions/workflows/validate.yml"><img src="https://github.com/beatschubser/ha-sleek-school-schedule/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
 </p>
 
-![Timetable card](https://raw.githubusercontent.com/beatschubser/ha-sleek-school-schedule/main/assets/screenshot-card.png)
+![Timetable card](assets/screenshot-card.png)
 
 ## Features
 
@@ -29,7 +28,7 @@
 
 | Dark mode, afternoon activity running | Tap a subject to highlight it |
 | --- | --- |
-| ![Dark mode](https://raw.githubusercontent.com/beatschubser/ha-sleek-school-schedule/main/assets/screenshot-dark.png) | ![Highlight](https://raw.githubusercontent.com/beatschubser/ha-sleek-school-schedule/main/assets/screenshot-highlight.png) |
+| ![Dark mode](assets/screenshot-dark.png) | ![Highlight](assets/screenshot-highlight.png) |
 
 ## Installation
 
@@ -63,7 +62,7 @@ The card is registered as a dashboard resource automatically. Only if your dashb
 | `child` | Show only this child (name). Without it, all children are shown as tabs. |
 | `title` | Custom title (only shown when the card displays a single child). |
 
-![Card editor](https://raw.githubusercontent.com/beatschubser/ha-sleek-school-schedule/main/assets/screenshot-editor.png)
+![Card editor](assets/screenshot-editor.png)
 
 ## Sensors
 

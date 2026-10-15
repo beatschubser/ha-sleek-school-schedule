@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Orario scolastico",
-    "description": "Orario con la lezione attuale evidenziata",
     "error": "Orario",
     "no_timetables": "Nessun orario ancora. Aggiungi l'integrazione \"Sleek School Schedule\" in Impostazioni > Dispositivi e servizi.",
     "child_not_found": "Nessun orario trovato per \"{name}\".",

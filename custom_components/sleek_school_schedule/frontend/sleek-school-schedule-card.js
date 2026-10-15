@@ -99,16 +99,13 @@ const pmItems = (plan, day) =>
     .sort((a, b) => toMin(a.start) - toMin(b.start));
 const matchChild = (c, want) => c.entry_id === want || c.title.toLowerCase() === String(want).toLowerCase();
 
-/** School day bounds like in the backend: first to last occupied slot. */
+/** Lesson bounds like in the backend: first to last filled lesson of the day. */
 function bounds(plan, day) {
-  const filled = plan.slots.filter((s) => s.type !== "break" && cellText(plan, day, s));
-  if (!filled.length) return null;
-  const lessons = filled.filter((s) => s.type === "lesson");
+  const lessons = plan.slots.filter((s) => s.type === "lesson" && cellText(plan, day, s));
+  if (!lessons.length) return null;
   return {
-    first: Math.min(...filled.map((s) => toMin(s.start))),
-    last: Math.max(...filled.map((s) => toMin(s.end))),
-    lFirst: lessons.length ? Math.min(...lessons.map((s) => toMin(s.start))) : null,
-    lLast: lessons.length ? Math.max(...lessons.map((s) => toMin(s.end))) : null,
+    first: Math.min(...lessons.map((s) => toMin(s.start))),
+    last: Math.max(...lessons.map((s) => toMin(s.end))),
   };
 }
 
@@ -214,9 +211,8 @@ class SleekSchoolScheduleCard extends HTMLElement {
       if (this._config.child) list = list.filter((c) => matchChild(c, this._config.child));
       this._children = list;
       if (!list.find((c) => c.entry_id === this._active)) this._active = list[0]?.entry_id;
-      const plans = {};
-      for (const c of list) plans[c.entry_id] = await this._hass.callWS({ type: `${WS}/get`, entry_id: c.entry_id });
-      this._plans = plans;
+      const plans = await Promise.all(list.map((c) => this._hass.callWS({ type: `${WS}/get`, entry_id: c.entry_id })));
+      this._plans = Object.fromEntries(list.map((c, i) => [c.entry_id, plans[i]]));
       this._error = null;
     } catch (e) {
       this._error = e?.message || String(e);
@@ -274,10 +270,10 @@ class SleekSchoolScheduleCard extends HTMLElement {
     const b = today < 5 ? bounds(plan, today) : null;
 
     // only show rows that are used on at least one day
-    const used = slots.map((s) => s.type !== "break" && DAYS.some((_, d) => cellText(plan, d, s)));
+    const used = slots.map((s) => s.type !== "break" && DAYS.some((d) => cellText(plan, d, s)));
     const firstUsed = used.indexOf(true);
     const lastUsed = used.lastIndexOf(true);
-    const hasPm = DAYS.some((_, d) => pmItems(plan, d).length);
+    const hasPm = DAYS.some((d) => pmItems(plan, d).length);
     if (firstUsed < 0 && !hasPm)
       return `<div class="msg">${esc(this.t("card.empty"))}</div>`;
     const rows = firstUsed < 0 ? [] : slots.filter((s, i) => i >= firstUsed && i <= lastUsed && (s.type === "break" || used[i]));
@@ -287,9 +283,7 @@ class SleekSchoolScheduleCard extends HTMLElement {
       b &&
       toMin(s.start) <= minute &&
       minute < toMin(s.end) &&
-      (s.type === "break"
-        ? b.lLast !== null && toMin(s.start) >= b.lFirst && toMin(s.end) <= b.lLast
-        : toMin(s.start) >= b.first && toMin(s.end) <= b.last);
+      (s.type !== "break" || (toMin(s.start) >= b.first && toMin(s.end) <= b.last));
     const progress = (s) => Math.round(((minute - toMin(s.start)) / (toMin(s.end) - toMin(s.start))) * 100);
 
     let html = `<div class="grid view"><div class="corner"></div>`;
@@ -305,7 +299,7 @@ class SleekSchoolScheduleCard extends HTMLElement {
         continue;
       }
       html += `<div class="time ${s.type}"><span class="t">${esc(s.start)}<br>${esc(s.end)}</span></div>`;
-      for (let d = 0; d < 5; d++) {
+      for (const d of DAYS) {
         const txt = cellText(plan, d, s);
         const active = d === today && isNow(s) && txt;
         const cls = ["cell", s.type, txt ? "filled" : "empty", d === today ? "todaycol" : "", active ? "now" : ""].join(" ");
@@ -320,7 +314,7 @@ class SleekSchoolScheduleCard extends HTMLElement {
     // Afternoon: entries with their own times per day
     if (hasPm) {
       html += `<div class="time pmtime"></div>`;
-      for (let d = 0; d < 5; d++) {
+      for (const d of DAYS) {
         const items = pmItems(plan, d);
         if (!items.length) {
           html += `<div class="cell empty pmempty ${d === today ? "todaycol" : ""}"></div>`;
@@ -414,9 +408,9 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     d.slots = sortSlots(d.slots || []);
     d.days ||= {};
     d.afternoon ||= {};
-    for (let i = 0; i < 5; i++) {
-      d.days[String(i)] ||= {};
-      d.afternoon[String(i)] ||= [];
+    for (const day of DAYS) {
+      d.days[day] ||= {};
+      d.afternoon[day] ||= [];
     }
     return d;
   }
@@ -498,16 +492,16 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     for (const s of slots) {
       if (s.type === "break") continue;
       html += `<div class="time ${s.type}"><span class="t" data-show="${s.id}start">${esc(s.start)}</span></div>`;
-      for (let day = 0; day < 5; day++) {
-        const v = (d.days[String(day)] || {})[s.id] || "";
+      for (const day of DAYS) {
+        const v = d.days[day][s.id] || "";
         html += `<input class="cellin ${s.type}" list="subjects" data-cell="${s.id}" data-day="${day}" value="${esc(v)}" maxlength="60">`;
       }
     }
     html += `</div><datalist id="subjects">${subjects.map((x) => `<option value="${esc(x)}">`).join("")}</datalist>`;
 
     html += `<div class="sub">${esc(this.t("editor.afternoon"))}</div><div class="pmdays">`;
-    for (let day = 0; day < 5; day++) {
-      const items = d.afternoon[String(day)];
+    for (const day of DAYS) {
+      const items = d.afternoon[day];
       html += `<div class="pmday"><div class="pmhead">${esc(dayName(this._locale, day, "long"))}</div>`;
       items.forEach((e, i) => {
         const k = `${day}-${i}`;
@@ -653,8 +647,8 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
         const src = el.dataset.day;
         const others = Object.keys(this._draft.afternoon).filter((d) => d !== src && this._draft.afternoon[d].length);
         if (others.length && !confirm(this.t("editor.copy_confirm", { day: dayName(this._locale, +src, "long") }))) return;
-        for (let d = 0; d < 5; d++) {
-          if (String(d) !== src) this._draft.afternoon[String(d)] = JSON.parse(JSON.stringify(this._draft.afternoon[src]));
+        for (const d of DAYS) {
+          if (String(d) !== src) this._draft.afternoon[d] = JSON.parse(JSON.stringify(this._draft.afternoon[src]));
         }
         this._dirty = true;
         this._render();
@@ -696,9 +690,9 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     };
     if (!this._draft) return bad;
     check(this._draft.slots.map((s) => ({ it: s, k: s.id })));
-    for (let day = 0; day < 5; day++) {
+    for (const day of DAYS) {
       const rows = [];
-      this._draft.afternoon[String(day)].forEach((e, i) => {
+      this._draft.afternoon[day].forEach((e, i) => {
         if ((e.name || "").trim()) rows.push({ it: e, k: `pm${day}-${i}` }); // empty entries are ignored
       });
       check(rows);
@@ -720,17 +714,15 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
       this._applyBad();
       return;
     }
-    const norm = (it) => {
-      it.start = parseTime(it.start);
-      it.end = parseTime(it.end);
-    };
-    this._draft.slots.forEach(norm);
-    Object.values(this._draft.afternoon).forEach((items) => items.filter((e) => (e.name || "").trim()).forEach(norm));
     this._bad = null;
-    for (let day = 0; day < 5; day++) {
-      this._draft.afternoon[String(day)] = this._draft.afternoon[String(day)]
+    for (const s of this._draft.slots) {
+      s.start = parseTime(s.start);
+      s.end = parseTime(s.end);
+    }
+    for (const day of DAYS) {
+      this._draft.afternoon[day] = this._draft.afternoon[day]
         .filter((e) => (e.name || "").trim())
-        .map((e) => ({ name: e.name.trim(), start: e.start, end: e.end }));
+        .map((e) => ({ name: e.name.trim(), start: parseTime(e.start), end: parseTime(e.end) }));
     }
     this._saving = true;
     this._render();
@@ -760,7 +752,7 @@ const BASE_STYLE = `
 .tab { font:inherit; font-size:1.05em; border:1px solid var(--divider-color); background:none; color:var(--primary-text-color); border-radius:18px; padding:6px 14px; cursor:pointer; }
 .tab.active { background:var(--primary-color); border-color:var(--primary-color); color:var(--text-primary-color, #fff); }
 .grid { display:grid; grid-template-columns: minmax(44px,auto) repeat(5, minmax(0,1fr)); gap:4px; align-items:stretch; }
-.dayhead { text-align:center; font-weight:500; color:var(--secondary-text-color); padding:9px 0; border-radius:0; font-size:1.05em; }
+.dayhead { text-align:center; font-weight:500; color:var(--secondary-text-color); padding:9px 0; font-size:1.05em; }
 .time { display:flex; flex-direction:column; justify-content:center; padding:0 6px 0 2px; color:var(--secondary-text-color); font-size:.88em; line-height:1.25; font-variant-numeric:tabular-nums; }
 `;
 
@@ -770,7 +762,7 @@ ha-card { display:block; padding: 12px 12px 14px; overflow:hidden; color:var(--p
 .title { font-size:1.3em; font-weight:500; flex:1; padding-left:4px; }
 .dayhead.today { background:var(--primary-color); color:var(--text-primary-color, #fff); }
 .time.break { opacity:.7; }
-.cell { position:relative; min-height:46px; border-radius:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:2px 4px; font-size:1.05em; overflow:hidden; }
+.cell { position:relative; min-height:46px; display:flex; align-items:center; justify-content:center; text-align:center; padding:2px 4px; font-size:1.05em; overflow:hidden; }
 .cell span { overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow-wrap:normal; word-break:normal; hyphens:auto; -webkit-hyphens:auto; }
 .cell.filled { background:hsla(var(--h), 65%, 55%, .18); }
 .cell.empty { background:var(--secondary-background-color); opacity:.45; }
@@ -787,8 +779,8 @@ ha-card { display:block; padding: 12px 12px 14px; overflow:hidden; color:var(--p
 .pm .item.now { outline:2px solid var(--primary-color); outline-offset:-2px; border-color:transparent; background:color-mix(in srgb, var(--primary-color) 22%, transparent); }
 .pm .item.now .n { font-weight:600; }
 .pmempty { min-height:34px; }
-.bar { position:absolute; left:0; bottom:0; height:5px; background:var(--primary-color); border-radius:0; }
-.breakrow { grid-column: span 5; position:relative; display:flex; align-items:center; justify-content:center; font-size:.82em; color:var(--secondary-text-color); letter-spacing:.06em; text-transform:uppercase; min-height:16px; border-radius:0; overflow:hidden; }
+.bar { position:absolute; left:0; bottom:0; height:5px; background:var(--primary-color); }
+.breakrow { grid-column: span 5; position:relative; display:flex; align-items:center; justify-content:center; font-size:.82em; color:var(--secondary-text-color); letter-spacing:.06em; text-transform:uppercase; min-height:16px; overflow:hidden; }
 .breakrow::before, .breakrow::after { content:""; flex:1; height:1px; background:var(--divider-color); margin:0 8px; }
 .breakrow.now { background:color-mix(in srgb, var(--primary-color) 18%, transparent); color:var(--primary-text-color); font-weight:600; min-height:22px; }
 @container (max-width: 480px) {

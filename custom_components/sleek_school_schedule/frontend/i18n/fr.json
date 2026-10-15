@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Emploi du temps",
-    "description": "Emploi du temps avec le cours actuel mis en évidence",
     "error": "Emploi du temps",
     "no_timetables": "Aucun emploi du temps. Ajoutez l'intégration \"Sleek School Schedule\" sous Paramètres > Appareils et services.",
     "child_not_found": "Aucun emploi du temps trouvé pour \"{name}\".",

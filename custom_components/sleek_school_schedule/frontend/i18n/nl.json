@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Lesrooster",
-    "description": "Lesrooster met de huidige les gemarkeerd",
     "error": "Lesrooster",
     "no_timetables": "Nog geen lesrooster. Voeg de integratie \"Sleek School Schedule\" toe onder Instellingen > Apparaten & diensten.",
     "child_not_found": "Geen lesrooster gevonden voor \"{name}\".",

@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Stundenplan",
-    "description": "Stundenplan mit Hervorhebung der aktuellen Stunde",
     "error": "Stundenplan",
     "no_timetables": "Noch kein Stundenplan angelegt. Unter Einstellungen > Geräte & Dienste die Integration \"Sleek School Schedule\" hinzufügen.",
     "child_not_found": "Kein Stundenplan für \"{name}\" gefunden.",

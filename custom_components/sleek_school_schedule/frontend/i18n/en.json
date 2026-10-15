@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Sleek School Schedule",
-    "description": "Timetable with the current lesson highlighted",
     "error": "Timetable",
     "no_timetables": "No timetable yet. Add the integration \"Sleek School Schedule\" under Settings > Devices & services.",
     "child_not_found": "No timetable found for \"{name}\".",

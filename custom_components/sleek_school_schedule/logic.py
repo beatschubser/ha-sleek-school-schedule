@@ -37,8 +37,7 @@ class Entry:
 
 @dataclass
 class DayInfo:
-    first: int
-    last: int
+    last: int  # end of the day including afternoon
     lesson_end: int | None
     entries: list[Entry]  # including breaks and free periods within lessons
 
@@ -89,7 +88,6 @@ def day_info(plan: dict, weekday: int) -> DayInfo | None:
 
     entries.sort(key=lambda e: (e.start, e.end))
     return DayInfo(
-        first=min(e.start for e in entries),
         last=max(e.end for e in entries),
         lesson_end=lesson_end,
         entries=entries,

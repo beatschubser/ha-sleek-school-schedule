@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import copy
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -16,7 +15,6 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import (
     CARD_URL,
-    CONF_NAME,
     DOMAIN,
     SIGNAL_UPDATED,
     SIGNAL_UPDATED_ANY,
@@ -53,7 +51,7 @@ class PlanStore:
         return self.plans[entry_id]
 
     async def async_set(self, entry_id: str, plan: dict) -> None:
-        self.plans[entry_id] = copy.deepcopy(plan)
+        self.plans[entry_id] = plan  # already a validated copy
         await self._store.async_save(self._data())
         async_dispatcher_send(self.hass, SIGNAL_UPDATED.format(entry_id))
         async_dispatcher_send(self.hass, SIGNAL_UPDATED_ANY, entry_id)

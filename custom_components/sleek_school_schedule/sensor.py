@@ -26,10 +26,10 @@ async def async_setup_entry(
 ) -> None:
     async_add_entities(
         [
-            CurrentSensor(hass, entry),
-            NextSensor(hass, entry),
-            LessonEndSensor(hass, entry),
-            PickupSensor(hass, entry),
+            CurrentSensor(entry),
+            NextSensor(entry),
+            LessonEndSensor(entry),
+            PickupSensor(entry),
         ]
     )
 
@@ -39,7 +39,7 @@ class _Base(SensorEntity):
     _attr_should_poll = False
     key = ""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
+    def __init__(self, entry: ConfigEntry) -> None:
         self._entry = entry
         self._attr_unique_id = f"{entry.entry_id}_{self.key}"
         self._attr_translation_key = self.key

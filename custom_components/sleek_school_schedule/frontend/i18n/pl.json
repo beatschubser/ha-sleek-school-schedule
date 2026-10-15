@@ -1,7 +1,6 @@
 {
   "card": {
     "name": "Plan lekcji",
-    "description": "Plan lekcji z wyróżnioną bieżącą lekcją",
     "error": "Plan lekcji",
     "no_timetables": "Brak planu lekcji. Dodaj integrację \"Sleek School Schedule\" w Ustawienia > Urządzenia i usługi.",
     "child_not_found": "Nie znaleziono planu lekcji dla \"{name}\".",

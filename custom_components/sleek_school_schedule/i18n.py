@@ -1,4 +1,4 @@
-"""Shared translations for sensor values and notifications.
+"""Shared translations for sensor values.
 
 Uses the same JSON files as the card (frontend/i18n/<lang>.json) so every
 language lives in exactly one file.

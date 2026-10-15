@@ -21,10 +21,10 @@
 
 ## Features
 
-I wanted our school timetables in Home Assistant. Every integration I tried was either a pain to configure or didn't look good, so I had my own built.
+I wanted our school timetables in Home Assistant. The existing integrations I tried were not my cup of tea, so I had my own built.
 
 > [!NOTE]
-> The idea and the features are my brainchild, but the code is 100% AI generated. I just want to be transparent about that.
+> All features are based on my own ideas, but the code is 100% AI-generated. I just want to be transparent about that.
 
 - You set up times, subjects and afternoon activities directly in the card editor of your dashboard, with a live preview.
 - The current lesson is highlighted and shows a progress bar. This also works for breaks and afternoon activities.

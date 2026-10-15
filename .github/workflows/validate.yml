@@ -13,6 +13,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: home-assistant/actions/hassfest@master
 
+  tests:
+    name: Logic tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python3 tests/test_logic.py
+      - name: Check card syntax
+        run: node --check custom_components/sleek_school_schedule/frontend/sleek-school-schedule-card.js
+      - name: Check version consistency
+        run: |
+          base=custom_components/sleek_school_schedule
+          m=$(jq -r .version "$base/manifest.json")
+          p=$(sed -nE 's/^VERSION = "([^"]+)".*/\1/p' "$base/const.py")
+          c=$(sed -nE 's/^const VERSION = "([^"]+)".*/\1/p' "$base/frontend/sleek-school-schedule-card.js")
+          echo "manifest=$m const.py=$p card=$c"
+          [ "$m" = "$p" ] && [ "$m" = "$c" ] || { echo "::error::Version mismatch, use scripts/bump_version.py"; exit 1; }
+
   hacs:
     name: HACS
     # HACS can only read public repositories; skipped while the repository is private

@@ -10,8 +10,12 @@
 
 <p align="center">
   <a href="https://github.com/hacs/integration"><img src="https://img.shields.io/badge/HACS-Custom-41BDF5.svg" alt="HACS Custom"></a>
+  <a href="https://github.com/beatschubser/ha-sleek-school-schedule/releases"><img src="https://img.shields.io/github/v/release/beatschubser/ha-sleek-school-schedule?include_prereleases" alt="Release"></a>
   <a href="https://github.com/beatschubser/ha-sleek-school-schedule/actions/workflows/validate.yml"><img src="https://github.com/beatschubser/ha-sleek-school-schedule/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
 </p>
+
+> [!WARNING]
+> **Work in progress.** This integration is under active development and not officially released yet. Features, sensor attributes and settings may still change between versions. Feedback and bug reports are welcome via [issues](https://github.com/beatschubser/ha-sleek-school-schedule/issues).
 
 ![Timetable card](assets/screenshot-card.png)
 

@@ -42,6 +42,7 @@ scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mocku
 1. Make the change, run `python3 tests/test_logic.py` and `node --check` on the card. For UI changes render the card/editor with Playwright and look at the screenshots (light, dark, narrow).
 2. Set the version with `python3 scripts/bump_version.py X.Y.Z`. Test builds: `X.Y.Z-beta.N` (become pre-releases, visible in HACS with beta enabled).
 3. Commit as `Claude <noreply@anthropic.com>` with meaningful subject lines (they become the release notes) and push to `main`.
+   Subject lines are short, neutral and factual (e.g. "Update README", "Editor: mark overlapping times"): describe what changed, never how or why text was written or reworded.
 4. `.github/workflows/release.yml` validates (hassfest, tests, version consistency) and creates the GitHub release automatically when the manifest version changed. This session type cannot create releases or change repository settings directly; the workflow does releases, settings are changed by the maintainer.
 5. `validate.yml` runs on every push; the HACS check is skipped while the repository is private.
 

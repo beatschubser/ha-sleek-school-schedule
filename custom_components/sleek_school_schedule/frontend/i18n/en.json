@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Sleek School Schedule",
+    "description": "Timetable with the current lesson highlighted",
+    "error": "Timetable",
+    "no_timetables": "No timetable yet. Add the integration \"Sleek School Schedule\" under Settings > Devices & services.",
+    "child_not_found": "No timetable found for \"{name}\".",
+    "loading": "Loading...",
+    "empty": "The timetable is still empty. To fill it in, edit the dashboard and open this card.",
+    "break": "Break"
+  },
+  "editor": {
+    "card": "Card",
+    "show": "Show",
+    "all_children": "All children (tabs)",
+    "title": "Title (optional)",
+    "title_placeholder": "only shown with one child",
+    "edit_timetable": "Edit timetable",
+    "time_grid": "Time grid",
+    "subjects": "Subjects",
+    "afternoon": "Afternoon",
+    "lesson": "Lesson",
+    "break": "Break",
+    "add_lesson": "+ Lesson",
+    "add_break": "+ Break",
+    "add_entry": "+ Entry",
+    "copy_to_all": "Copy to all days",
+    "copy_confirm": "Copy the entries of {day} to all days? The afternoons of the other days will be replaced.",
+    "entry_placeholder": "e.g. After-school care",
+    "remove": "Remove",
+    "unsaved": "Unsaved changes",
+    "discard": "Discard",
+    "save": "Save timetable",
+    "save_hint": "This button saves the timetable immediately, independent of saving the card.",
+    "saved": "Saved.",
+    "discard_confirm": "Discard unsaved changes?"
+  },
+  "sensor": {
+    "none": "Free",
+    "break": "Break",
+    "free_period": "Free period"
+  }
+}

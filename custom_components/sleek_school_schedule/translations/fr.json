@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ajouter un emploi du temps",
+        "description": "Un emploi du temps par enfant. Modifiez ensuite les horaires et les matières directement dans la carte.",
+        "data": {
+          "name": "Prénom de l'enfant"
+        }
+      }
+    },
+    "error": {
+      "empty": "Veuillez saisir un nom"
+    },
+    "abort": {
+      "already_configured": "Un emploi du temps avec ce nom existe déjà"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Cours actuel"
+      },
+      "next": {
+        "name": "Prochain cours"
+      },
+      "lesson_end": {
+        "name": "Fin des cours aujourd'hui"
+      },
+      "pickup": {
+        "name": "Heure de sortie aujourd'hui"
+      }
+    }
+  }
+}

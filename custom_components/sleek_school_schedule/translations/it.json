@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aggiungi orario",
+        "description": "Un orario per ogni figlio. Modifica poi fasce orarie e materie direttamente nella scheda.",
+        "data": {
+          "name": "Nome del figlio"
+        }
+      }
+    },
+    "error": {
+      "empty": "Inserisci un nome"
+    },
+    "abort": {
+      "already_configured": "Esiste già un orario con questo nome"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Lezione attuale"
+      },
+      "next": {
+        "name": "Prossima lezione"
+      },
+      "lesson_end": {
+        "name": "Fine lezioni oggi"
+      },
+      "pickup": {
+        "name": "Orario di uscita oggi"
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Horario escolar",
+    "description": "Horario con la clase actual resaltada",
+    "error": "Horario",
+    "no_timetables": "Todavía no hay horario. Añade la integración \"Sleek School Schedule\" en Ajustes > Dispositivos y servicios.",
+    "child_not_found": "No se encontró horario para \"{name}\".",
+    "loading": "Cargando...",
+    "empty": "El horario todavía está vacío. Para rellenarlo, edita el panel y abre esta tarjeta.",
+    "break": "Recreo"
+  },
+  "editor": {
+    "card": "Tarjeta",
+    "show": "Mostrar",
+    "all_children": "Todos los niños (pestañas)",
+    "title": "Título (opcional)",
+    "title_placeholder": "solo visible con un niño",
+    "edit_timetable": "Editar horario",
+    "time_grid": "Franjas horarias",
+    "subjects": "Asignaturas",
+    "afternoon": "Tarde",
+    "lesson": "Clase",
+    "break": "Recreo",
+    "add_lesson": "+ Clase",
+    "add_break": "+ Recreo",
+    "add_entry": "+ Entrada",
+    "copy_to_all": "Copiar a todos los días",
+    "copy_confirm": "¿Copiar las entradas del {day} a todos los días? Las tardes de los demás días se sustituirán.",
+    "entry_placeholder": "p. ej. Actividades extraescolares",
+    "remove": "Eliminar",
+    "unsaved": "Cambios sin guardar",
+    "discard": "Descartar",
+    "save": "Guardar horario",
+    "save_hint": "Este botón guarda el horario inmediatamente, independientemente de guardar la tarjeta.",
+    "saved": "Guardado.",
+    "discard_confirm": "¿Descartar los cambios sin guardar?"
+  },
+  "sensor": {
+    "none": "Libre",
+    "break": "Recreo",
+    "free_period": "Hora libre"
+  }
+}

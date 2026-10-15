@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Stundenplan anlegen",
+        "description": "Ein Stundenplan pro Kind. Zeitraster und Fächer bearbeitest du danach direkt in der Stundenplan-Karte.",
+        "data": {
+          "name": "Name des Kindes"
+        }
+      }
+    },
+    "error": {
+      "empty": "Bitte einen Namen eingeben"
+    },
+    "abort": {
+      "already_configured": "Für diesen Namen gibt es schon einen Stundenplan"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Aktuelle Stunde"
+      },
+      "next": {
+        "name": "Nächste Stunde"
+      },
+      "lesson_end": {
+        "name": "Unterrichtsende heute"
+      },
+      "pickup": {
+        "name": "Abholzeit heute"
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Plan lekcji",
+    "description": "Plan lekcji z wyróżnioną bieżącą lekcją",
+    "error": "Plan lekcji",
+    "no_timetables": "Brak planu lekcji. Dodaj integrację \"Sleek School Schedule\" w Ustawienia > Urządzenia i usługi.",
+    "child_not_found": "Nie znaleziono planu lekcji dla \"{name}\".",
+    "loading": "Ładowanie...",
+    "empty": "Plan lekcji jest jeszcze pusty. Aby go uzupełnić, edytuj dashboard i otwórz tę kartę.",
+    "break": "Przerwa"
+  },
+  "editor": {
+    "card": "Karta",
+    "show": "Pokaż",
+    "all_children": "Wszystkie dzieci (zakładki)",
+    "title": "Tytuł (opcjonalnie)",
+    "title_placeholder": "widoczny tylko przy jednym dziecku",
+    "edit_timetable": "Edytuj plan lekcji",
+    "time_grid": "Godziny lekcji",
+    "subjects": "Przedmioty",
+    "afternoon": "Popołudnie",
+    "lesson": "Lekcja",
+    "break": "Przerwa",
+    "add_lesson": "+ Lekcja",
+    "add_break": "+ Przerwa",
+    "add_entry": "+ Wpis",
+    "copy_to_all": "Kopiuj na wszystkie dni",
+    "copy_confirm": "Skopiować wpisy z dnia {day} na wszystkie dni? Popołudnia pozostałych dni zostaną zastąpione.",
+    "entry_placeholder": "np. Świetlica",
+    "remove": "Usuń",
+    "unsaved": "Niezapisane zmiany",
+    "discard": "Odrzuć",
+    "save": "Zapisz plan lekcji",
+    "save_hint": "Ten przycisk od razu zapisuje plan lekcji, niezależnie od zapisania karty.",
+    "saved": "Zapisano.",
+    "discard_confirm": "Odrzucić niezapisane zmiany?"
+  },
+  "sensor": {
+    "none": "Wolne",
+    "break": "Przerwa",
+    "free_period": "Okienko"
+  }
+}

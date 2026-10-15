@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add timetable",
+        "description": "One timetable per child. Edit the time grid and subjects directly in the timetable card afterwards.",
+        "data": {
+          "name": "Child's name"
+        }
+      }
+    },
+    "error": {
+      "empty": "Please enter a name"
+    },
+    "abort": {
+      "already_configured": "A timetable with this name already exists"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Current lesson"
+      },
+      "next": {
+        "name": "Next lesson"
+      },
+      "lesson_end": {
+        "name": "Lessons end today"
+      },
+      "pickup": {
+        "name": "Pickup time today"
+      }
+    }
+  }
+}

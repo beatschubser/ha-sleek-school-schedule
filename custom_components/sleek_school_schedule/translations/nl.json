@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Lesrooster toevoegen",
+        "description": "Eén lesrooster per kind. Bewerk het tijdschema en de vakken daarna direct in de lesroosterkaart.",
+        "data": {
+          "name": "Naam van het kind"
+        }
+      }
+    },
+    "error": {
+      "empty": "Voer een naam in"
+    },
+    "abort": {
+      "already_configured": "Er bestaat al een lesrooster met deze naam"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Huidige les"
+      },
+      "next": {
+        "name": "Volgende les"
+      },
+      "lesson_end": {
+        "name": "Einde lessen vandaag"
+      },
+      "pickup": {
+        "name": "Ophaaltijd vandaag"
+      }
+    }
+  }
+}

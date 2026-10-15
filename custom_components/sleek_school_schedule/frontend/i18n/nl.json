@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Lesrooster",
+    "description": "Lesrooster met de huidige les gemarkeerd",
+    "error": "Lesrooster",
+    "no_timetables": "Nog geen lesrooster. Voeg de integratie \"Sleek School Schedule\" toe onder Instellingen > Apparaten & diensten.",
+    "child_not_found": "Geen lesrooster gevonden voor \"{name}\".",
+    "loading": "Laden...",
+    "empty": "Het lesrooster is nog leeg. Bewerk het dashboard en open deze kaart om het in te vullen.",
+    "break": "Pauze"
+  },
+  "editor": {
+    "card": "Kaart",
+    "show": "Tonen",
+    "all_children": "Alle kinderen (tabbladen)",
+    "title": "Titel (optioneel)",
+    "title_placeholder": "alleen zichtbaar bij één kind",
+    "edit_timetable": "Lesrooster bewerken",
+    "time_grid": "Tijdschema",
+    "subjects": "Vakken",
+    "afternoon": "Middag",
+    "lesson": "Les",
+    "break": "Pauze",
+    "add_lesson": "+ Les",
+    "add_break": "+ Pauze",
+    "add_entry": "+ Item",
+    "copy_to_all": "Naar alle dagen kopiëren",
+    "copy_confirm": "De items van {day} naar alle dagen kopiëren? De middagen van de andere dagen worden vervangen.",
+    "entry_placeholder": "bijv. Naschoolse opvang",
+    "remove": "Verwijderen",
+    "unsaved": "Niet-opgeslagen wijzigingen",
+    "discard": "Verwerpen",
+    "save": "Lesrooster opslaan",
+    "save_hint": "Met deze knop wordt het lesrooster direct opgeslagen, los van het opslaan van de kaart.",
+    "saved": "Opgeslagen.",
+    "discard_confirm": "Niet-opgeslagen wijzigingen verwerpen?"
+  },
+  "sensor": {
+    "none": "Vrij",
+    "break": "Pauze",
+    "free_period": "Tussenuur"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Dodaj plan lekcji",
+        "description": "Jeden plan lekcji na dziecko. Godziny i przedmioty edytujesz potem bezpośrednio w karcie.",
+        "data": {
+          "name": "Imię dziecka"
+        }
+      }
+    },
+    "error": {
+      "empty": "Wpisz imię"
+    },
+    "abort": {
+      "already_configured": "Plan lekcji o tej nazwie już istnieje"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Bieżąca lekcja"
+      },
+      "next": {
+        "name": "Następna lekcja"
+      },
+      "lesson_end": {
+        "name": "Koniec lekcji dzisiaj"
+      },
+      "pickup": {
+        "name": "Godzina odbioru dzisiaj"
+      }
+    }
+  }
+}

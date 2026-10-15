@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Emploi du temps",
+    "description": "Emploi du temps avec le cours actuel mis en évidence",
+    "error": "Emploi du temps",
+    "no_timetables": "Aucun emploi du temps. Ajoutez l'intégration \"Sleek School Schedule\" sous Paramètres > Appareils et services.",
+    "child_not_found": "Aucun emploi du temps trouvé pour \"{name}\".",
+    "loading": "Chargement...",
+    "empty": "L'emploi du temps est encore vide. Pour le remplir, modifiez le tableau de bord et ouvrez cette carte.",
+    "break": "Pause"
+  },
+  "editor": {
+    "card": "Carte",
+    "show": "Afficher",
+    "all_children": "Tous les enfants (onglets)",
+    "title": "Titre (facultatif)",
+    "title_placeholder": "visible seulement avec un enfant",
+    "edit_timetable": "Modifier l'emploi du temps",
+    "time_grid": "Horaires",
+    "subjects": "Matières",
+    "afternoon": "Après-midi",
+    "lesson": "Cours",
+    "break": "Pause",
+    "add_lesson": "+ Cours",
+    "add_break": "+ Pause",
+    "add_entry": "+ Entrée",
+    "copy_to_all": "Copier sur tous les jours",
+    "copy_confirm": "Copier les entrées du {day} sur tous les jours ? Les après-midis des autres jours seront remplacés.",
+    "entry_placeholder": "p. ex. Garderie",
+    "remove": "Supprimer",
+    "unsaved": "Modifications non enregistrées",
+    "discard": "Annuler",
+    "save": "Enregistrer l'emploi du temps",
+    "save_hint": "Ce bouton enregistre l'emploi du temps immédiatement, indépendamment de l'enregistrement de la carte.",
+    "saved": "Enregistré.",
+    "discard_confirm": "Annuler les modifications non enregistrées ?"
+  },
+  "sensor": {
+    "none": "Libre",
+    "break": "Pause",
+    "free_period": "Heure libre"
+  }
+}

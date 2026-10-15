@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Stundenplan",
+    "description": "Stundenplan mit Hervorhebung der aktuellen Stunde",
+    "error": "Stundenplan",
+    "no_timetables": "Noch kein Stundenplan angelegt. Unter Einstellungen > Geräte & Dienste die Integration \"Sleek School Schedule\" hinzufügen.",
+    "child_not_found": "Kein Stundenplan für \"{name}\" gefunden.",
+    "loading": "Lade...",
+    "empty": "Der Stundenplan ist noch leer. Zum Befüllen das Dashboard bearbeiten und diese Karte öffnen.",
+    "break": "Pause"
+  },
+  "editor": {
+    "card": "Karte",
+    "show": "Anzeigen",
+    "all_children": "Alle Kinder (Tabs)",
+    "title": "Titel (optional)",
+    "title_placeholder": "nur bei einem Kind sichtbar",
+    "edit_timetable": "Stundenplan bearbeiten",
+    "time_grid": "Zeitraster",
+    "subjects": "Fächer",
+    "afternoon": "Nachmittag",
+    "lesson": "Stunde",
+    "break": "Pause",
+    "add_lesson": "+ Stunde",
+    "add_break": "+ Pause",
+    "add_entry": "+ Eintrag",
+    "copy_to_all": "Auf alle Tage übertragen",
+    "copy_confirm": "Einträge von {day} auf alle Tage übertragen? Die Nachmittage der anderen Tage werden ersetzt.",
+    "entry_placeholder": "z.B. Betreuung",
+    "remove": "Entfernen",
+    "unsaved": "Ungespeicherte Änderungen",
+    "discard": "Verwerfen",
+    "save": "Stundenplan speichern",
+    "save_hint": "Der Stundenplan wird mit diesem Button sofort gespeichert, unabhängig vom Speichern der Karte.",
+    "saved": "Gespeichert.",
+    "discard_confirm": "Ungespeicherte Änderungen verwerfen?"
+  },
+  "sensor": {
+    "none": "frei",
+    "break": "Pause",
+    "free_period": "Freistunde"
+  }
+}

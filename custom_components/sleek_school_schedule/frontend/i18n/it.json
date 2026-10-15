@@ -1,0 +1,43 @@
+{
+  "card": {
+    "name": "Orario scolastico",
+    "description": "Orario con la lezione attuale evidenziata",
+    "error": "Orario",
+    "no_timetables": "Nessun orario ancora. Aggiungi l'integrazione \"Sleek School Schedule\" in Impostazioni > Dispositivi e servizi.",
+    "child_not_found": "Nessun orario trovato per \"{name}\".",
+    "loading": "Caricamento...",
+    "empty": "L'orario è ancora vuoto. Per compilarlo, modifica la plancia e apri questa scheda.",
+    "break": "Intervallo"
+  },
+  "editor": {
+    "card": "Scheda",
+    "show": "Mostra",
+    "all_children": "Tutti i figli (schede)",
+    "title": "Titolo (facoltativo)",
+    "title_placeholder": "visibile solo con un figlio",
+    "edit_timetable": "Modifica orario",
+    "time_grid": "Fasce orarie",
+    "subjects": "Materie",
+    "afternoon": "Pomeriggio",
+    "lesson": "Lezione",
+    "break": "Intervallo",
+    "add_lesson": "+ Lezione",
+    "add_break": "+ Intervallo",
+    "add_entry": "+ Voce",
+    "copy_to_all": "Copia su tutti i giorni",
+    "copy_confirm": "Copiare le voci di {day} su tutti i giorni? I pomeriggi degli altri giorni verranno sostituiti.",
+    "entry_placeholder": "es. Doposcuola",
+    "remove": "Rimuovi",
+    "unsaved": "Modifiche non salvate",
+    "discard": "Annulla",
+    "save": "Salva orario",
+    "save_hint": "Questo pulsante salva subito l'orario, indipendentemente dal salvataggio della scheda.",
+    "saved": "Salvato.",
+    "discard_confirm": "Annullare le modifiche non salvate?"
+  },
+  "sensor": {
+    "none": "Libero",
+    "break": "Intervallo",
+    "free_period": "Ora buca"
+  }
+}

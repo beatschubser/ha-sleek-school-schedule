@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Añadir horario",
+        "description": "Un horario por niño. Después, edita las franjas horarias y las asignaturas directamente en la tarjeta.",
+        "data": {
+          "name": "Nombre del niño"
+        }
+      }
+    },
+    "error": {
+      "empty": "Introduce un nombre"
+    },
+    "abort": {
+      "already_configured": "Ya existe un horario con este nombre"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current": {
+        "name": "Clase actual"
+      },
+      "next": {
+        "name": "Próxima clase"
+      },
+      "lesson_end": {
+        "name": "Fin de las clases hoy"
+      },
+      "pickup": {
+        "name": "Hora de recogida hoy"
+      }
+    }
+  }
+}

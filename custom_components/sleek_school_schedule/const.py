@@ -1,7 +1,7 @@
 """Constants for the Sleek School Schedule integration."""
 
 DOMAIN = "sleek_school_schedule"
-VERSION = "2.0.1"
+VERSION = "2.0.2"
 
 STORAGE_KEY = DOMAIN
 STORAGE_VERSION = 1

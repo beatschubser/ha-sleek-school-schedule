@@ -33,6 +33,7 @@ scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mocku
 - Afternoon is per day: `plan["afternoon"][day] = [{name, start, end}]`, shown as one row without a left label.
 - Editor: time fields are plain text `HH:MM`; never re-sort while typing or on save. Invalid or overlapping times get a red background on blur; no error text below.
 - Card: square cells, no left accent bar, tap a subject to highlight it (auto reset after 20 s), current entry with 5 px progress bar. Theme font is used (no custom font). Option `appearance` (auto/light/dark): light and dark override the theme color variables on `ha-card`, the primary color always comes from the theme.
+- The next lesson sensor only looks at today ("none" after the last entry of the day); `starts_at` is always today.
 - Sensor attribute names and the `type` value are English (`lesson`, `break`, `free_period`, `afternoon`, `none`); state texts follow the HA language.
 - Languages: en (fallback), de, fr, nl, es, it, pl. Every text change must be made in **all** `frontend/i18n/*.json` and `translations/*.json`. Weekday names come from `Intl`, not from translation files.
 - README images use relative paths.
@@ -45,6 +46,8 @@ scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mocku
    Subject lines are short, neutral and factual (e.g. "Update README", "Editor: mark overlapping times"): describe what changed, never how or why text was written or reworded.
 4. `.github/workflows/release.yml` validates (hassfest, tests, version consistency) and creates the GitHub release automatically when the manifest version changed. This session type cannot create releases or change repository settings directly; the workflow does releases, settings are changed by the maintainer.
 5. `validate.yml` runs on every push; the HACS check is skipped while the repository is private.
+6. Release notes: betas list changes since the last tag, full releases since the last full release; version commits are left out. Show the release notes to the maintainer after every release.
+7. `assets/raw/ha-app-icon.png` (Home Assistant app icon, needed for `phone-sensors.png`) is gitignored on purpose; ask the maintainer for it if it is missing.
 
 ## Lessons learned
 

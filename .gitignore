@@ -12,3 +12,6 @@ Thumbs.db
 
 # Local test artifacts
 *.zip
+
+# Home Assistant app icon for assets/mockups/phone-sensors.html (trademark, kept local only)
+assets/raw/ha-app-icon.png

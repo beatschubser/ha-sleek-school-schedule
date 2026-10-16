@@ -3,11 +3,12 @@
  * Texts: frontend/i18n/<language>.json, English is the fallback for missing keys.
  */
 
-const VERSION = "2.0.2";
+const VERSION = "2.1.0-beta.1";
 const I18N_URL = "/sleek_school_schedule_files/i18n/";
 const LANGUAGES = ["en", "de", "fr", "nl", "es", "it", "pl"];
 const DAYS = [0, 1, 2, 3, 4]; // Monday to Friday
 const WS = "sleek_school_schedule";
+const APPEARANCES = ["auto", "light", "dark"]; // auto = follow the Home Assistant theme
 
 /* ---------------- Translations ---------------- */
 
@@ -220,6 +221,11 @@ class SleekSchoolScheduleCard extends HTMLElement {
     this._render();
   }
 
+  /** "light" or "dark" forces the colors, anything else follows the theme. */
+  _appearance() {
+    return ["light", "dark"].includes(this._config.appearance) ? `mode-${this._config.appearance}` : "";
+  }
+
   get _plan() {
     return this._plans[this._active];
   }
@@ -235,7 +241,7 @@ class SleekSchoolScheduleCard extends HTMLElement {
     else if (!this._plan) body = `<div class="msg">${esc(this.t("card.loading"))}</div>`;
     else body = this._renderView();
 
-    this.shadowRoot.innerHTML = `<style>${BASE_STYLE}${VIEW_STYLE}</style><ha-card lang="${this._lang}">${this._renderHeader()}${body}</ha-card>`;
+    this.shadowRoot.innerHTML = `<style>${BASE_STYLE}${VIEW_STYLE}</style><ha-card class="${esc(this._appearance())}" lang="${this._lang}">${this._renderHeader()}${body}</ha-card>`;
     this.shadowRoot.querySelectorAll("[data-tab]").forEach((el) =>
       el.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -419,6 +425,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     const cfg = { type: this._config.type || "custom:sleek-school-schedule-card" };
     if (this._config.child) cfg.child = this._config.child;
     if (this._config.title) cfg.title = this._config.title;
+    if (this._config.appearance && this._config.appearance !== "auto") cfg.appearance = this._config.appearance;
     this._config = cfg;
     this.dispatchEvent(new CustomEvent("config-changed", { detail: { config: cfg }, bubbles: true, composed: true }));
   }
@@ -438,7 +445,10 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     }
     html += `<label>${esc(this.t("editor.title"))}<input data-cfg="title" value="${esc(this._config.title || "")}" placeholder="${esc(
       this._children.length === 1 ? this._children[0].title : this.t("editor.title_placeholder")
-    )}"></label></div>`;
+    )}"></label>`;
+    html += `<label>${esc(this.t("editor.appearance"))}<select data-cfg="appearance">${APPEARANCES.map(
+      (a) => `<option value="${a}" ${(this._config.appearance || "auto") === a ? "selected" : ""}>${esc(this.t(`editor.appearance_${a}`))}</option>`
+    ).join("")}</select></label></div>`;
 
     // Timetable
     html += `<div class="section">${esc(this.t("editor.edit_timetable"))}</div>`;
@@ -546,7 +556,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
 
     root.querySelectorAll("[data-cfg]").forEach((el) =>
       el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => {
-        this._config[el.dataset.cfg] = el.value.trim();
+        this._config = { ...this._config, [el.dataset.cfg]: el.value.trim() }; // new object, the fired config stays untouched
         this._fireConfig();
         if (el.dataset.cfg === "child") this._selectFromConfig();
       })
@@ -757,6 +767,8 @@ const BASE_STYLE = `
 `;
 
 const VIEW_STYLE = `
+ha-card.mode-light { color-scheme:light; --primary-text-color:#212121; --secondary-text-color:#727272; --divider-color:rgba(0,0,0,.12); --secondary-background-color:#e5e5e5; --card-background-color:#fff; --ha-card-background:#fff; --ha-card-border-color:#e0e0e0; }
+ha-card.mode-dark { color-scheme:dark; --primary-text-color:#e1e1e1; --secondary-text-color:#9b9b9b; --divider-color:rgba(225,225,225,.12); --secondary-background-color:#282828; --card-background-color:#1c1c1c; --ha-card-background:#1c1c1c; --ha-card-border-color:rgba(225,225,225,.12); }
 ha-card { display:block; padding: 12px 12px 14px; overflow:hidden; color:var(--primary-text-color); container-type:inline-size; }
 .head { display:flex; align-items:center; gap:8px; margin-bottom:10px; min-height:36px; }
 .title { font-size:1.3em; font-weight:500; flex:1; padding-left:4px; }

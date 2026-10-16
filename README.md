@@ -70,6 +70,7 @@ The card is registered as a dashboard resource automatically. Only if your dashb
 | --- | --- |
 | `child` | Show only this child (name). Without it, all children are shown as tabs. |
 | `title` | Custom title (only shown when the card displays a single child). |
+| `appearance` | `auto` (default, follows your Home Assistant theme), `light` or `dark`. |
 
 ![Card editor](assets/tablet-editor.png)
 

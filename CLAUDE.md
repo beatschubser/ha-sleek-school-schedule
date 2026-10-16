@@ -32,7 +32,7 @@ scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mocku
 - Time grid slots: types `lesson` and `break` only, no labels; lessons are numbered automatically by start time.
 - Afternoon is per day: `plan["afternoon"][day] = [{name, start, end}]`, shown as one row without a left label.
 - Editor: time fields are plain text `HH:MM`; never re-sort while typing or on save. Invalid or overlapping times get a red background on blur; no error text below.
-- Card: square cells, no left accent bar, tap a subject to highlight it (auto reset after 20 s), current entry with 5 px progress bar. Theme font is used (no custom font).
+- Card: square cells, no left accent bar, tap a subject to highlight it (auto reset after 20 s), current entry with 5 px progress bar. Theme font is used (no custom font). Option `appearance` (auto/light/dark): light and dark override the theme color variables on `ha-card`, the primary color always comes from the theme.
 - Sensor attribute names and the `type` value are English (`lesson`, `break`, `free_period`, `afternoon`, `none`); state texts follow the HA language.
 - Languages: en (fallback), de, fr, nl, es, it, pl. Every text change must be made in **all** `frontend/i18n/*.json` and `translations/*.json`. Weekday names come from `Intl`, not from translation files.
 - README images use relative paths.

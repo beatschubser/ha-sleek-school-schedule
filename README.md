@@ -32,7 +32,8 @@ I wanted our school timetables in Home Assistant. The existing integrations I tr
 - One timetable per child, shown as tabs in one card or in separate cards.
 - Tap a subject and you see every lesson of that subject in the week.
 - Sensors for the current lesson, the next lesson, the end of lessons and the pickup time, so you can use the timetable in automations.
-- Every subject gets its own color automatically. Light and dark mode are supported, on phones as well as on tablets.
+- Every subject gets its own color automatically.
+- Light and dark mode are supported.
 - Available in English, German, French, Dutch, Spanish, Italian and Polish.
 
 | Afternoon activity running | Tap a subject to highlight it |

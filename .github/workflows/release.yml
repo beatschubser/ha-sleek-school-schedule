@@ -76,12 +76,18 @@ jobs:
         if: steps.version.outputs.exists == 'false'
         run: |
           set -euo pipefail
-          previous=$(git describe --tags --abbrev=0 --match 'v*' HEAD 2>/dev/null || true)
+          # Releases list everything since the last release, betas only since the last beta
+          if [ "${{ steps.version.outputs.prerelease }}" = "true" ]; then
+            previous=$(git describe --tags --abbrev=0 --match 'v*' HEAD 2>/dev/null || true)
+          else
+            previous=$(git describe --tags --abbrev=0 --match 'v*' --exclude 'v*-*' HEAD 2>/dev/null || true)
+          fi
           range=${previous:+$previous..}HEAD
           {
             echo "## Changes"
             echo
-            git log --no-merges --pretty='- %s' "$range"
+            # version commits ("Sleek School Schedule 2.1.0") carry no information
+            git log --no-merges --pretty='- %s' "$range" | grep -v -E '^- Sleek School Schedule [0-9]' || true
             if [ -n "$previous" ]; then
               echo
               echo "**Full changelog:** https://github.com/${GITHUB_REPOSITORY}/compare/${previous}...v${{ steps.version.outputs.version }}"

@@ -23,7 +23,7 @@ custom_components/sleek_school_schedule/
 tests/test_logic.py     python3 tests/test_logic.py (no HA needed)
 scripts/bump_version.py sets the version in manifest.json, const.py and the card
 assets/                 README images (device mockups), raw/ screenshots, mockups/mockups.html, icon source
-scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mockups/mockups.html
+scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mockups/*.html
 ```
 
 ## Design decisions (do not undo without asking)

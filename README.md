@@ -87,6 +87,8 @@ Every child gets four sensors. Entity IDs are created in your Home Assistant lan
 
 `type` is one of `lesson`, `break`, `free_period`, `afternoon` or `none`, independent of the language. Use it in automations instead of the state text.
 
+<p align="center"><img src="assets/phone-sensors.png" width="420" alt="The four sensors on a phone, with the pickup reminder from the example below"></p>
+
 ### Example: reminder before pickup
 
 ```yaml

@@ -84,10 +84,13 @@ def test_day_with_afternoon_only():
     assert s.pickup.strftime("%H:%M") == "15:00"
 
 
-def test_next_lesson_on_following_week():
+def test_next_is_today_only():
+    s = logic.status(sample_plan(), at(3, 16, 30))  # Thursday, last entry running
+    assert s.next is None
     s = logic.status(sample_plan(), at(4, 18, 0))  # Friday evening
-    assert s.current is None
-    assert s.next.name == "Maths" and s.next_date.isoformat() == "2026-10-22"
+    assert s.current is None and s.next is None
+    s = logic.status(sample_plan(), at(3, 7, 0))  # Thursday before school
+    assert s.next.name == "Maths"
 
 
 def test_weekend_and_empty_plan():

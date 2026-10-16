@@ -81,7 +81,7 @@ Every child gets four sensors. Entity IDs are created in your Home Assistant lan
 | Sensor | State | Attributes |
 | --- | --- | --- |
 | Current lesson | Subject, break, free period or "Free" | `type`, `lesson`, `start`, `end` |
-| Next lesson | Next subject or afternoon activity (also on the next school day) | `type`, `lesson`, `start`, `end`, `starts_at` |
+| Next lesson | Next subject or afternoon activity of the day, "Free" after the last one | `type`, `lesson`, `start`, `end`, `starts_at` |
 | Lessons end today | Timestamp of the last lesson of the day | |
 | Pickup time today | Timestamp of the end of the day, including afternoon activities | |
 

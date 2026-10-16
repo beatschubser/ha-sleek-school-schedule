@@ -3,7 +3,7 @@
  * Texts: frontend/i18n/<language>.json, English is the fallback for missing keys.
  */
 
-const VERSION = "2.1.0";
+const VERSION = "2.2.0-beta.1";
 const I18N_URL = "/sleek_school_schedule_files/i18n/";
 const LANGUAGES = ["en", "de", "fr", "nl", "es", "it", "pl"];
 const DAYS = [0, 1, 2, 3, 4]; // Monday to Friday

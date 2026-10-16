@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from .const import (
     ENTRY_AFTERNOON,
@@ -97,8 +97,7 @@ def day_info(plan: dict, weekday: int) -> DayInfo | None:
 @dataclass
 class Status:
     current: Entry | None
-    next: Entry | None
-    next_date: date | None
+    next: Entry | None  # later today only
     lesson_end: datetime | None
     pickup: datetime | None
 
@@ -119,20 +118,12 @@ def status(plan: dict, now: datetime) -> Status:
                 current = entry
                 break
 
-    nxt, nxt_date = None, None
-    for offset in range(0, 8):
-        day = now.date() + timedelta(days=offset)
-        dinfo = day_info(plan, day.weekday())
-        if not dinfo:
-            continue
-        for entry in dinfo.entries:
-            if entry.type in (ENTRY_BREAK, ENTRY_FREE):
-                continue
-            if offset == 0 and entry.start <= minute:
-                continue
-            nxt, nxt_date = entry, day
-            break
-        if nxt:
-            break
+    # Next entry of today; breaks and free periods are never "next"
+    nxt = None
+    if info:
+        nxt = next(
+            (e for e in info.entries if e.type not in (ENTRY_BREAK, ENTRY_FREE) and e.start > minute),
+            None,
+        )
 
-    return Status(current, nxt, nxt_date, lesson_end, pickup)
+    return Status(current, nxt, lesson_end, pickup)

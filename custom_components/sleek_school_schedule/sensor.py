@@ -122,8 +122,8 @@ class NextSensor(_Base):
         nxt = self._status.next
         self._attr_native_value = self._text(nxt)
         attrs = self._attrs(nxt)
-        if nxt and self._status.next_date:
-            start = dt_util.start_of_local_day(self._status.next_date) + timedelta(minutes=nxt.start)
+        if nxt:
+            start = dt_util.start_of_local_day() + timedelta(minutes=nxt.start)
             attrs["starts_at"] = start.isoformat()
         self._attr_extra_state_attributes = attrs
 

@@ -12,8 +12,8 @@ custom_components/sleek_school_schedule/
   const.py              DOMAIN, VERSION, default_plan()
   logic.py              pure timetable logic (no HA imports), tested by tests/test_logic.py
   sensor.py             current, next, lesson_end, pickup (attributes are language neutral)
-  websocket_api.py      sleek_school_schedule/{list,get,save,subscribe}, schema validation
-  frontend_resource.py  serves frontend/ under /sleek_school_schedule_files, adds dashboard resource
+  websocket_api.py      sleek_school_schedule/{list,get,save,subscribe,version}, schema validation
+  frontend_resource.py  serves the card + i18n files under /sleek_school_schedule_files (Cache-Control: no-cache), adds dashboard resource
   i18n.py               loads frontend/i18n/<lang>.json for sensor values
   config_flow.py        one config entry per child (unique_id = slug of the name)
   frontend/sleek-school-schedule-card.js   card + card editor (vanilla JS, no build step)
@@ -49,5 +49,5 @@ scripts/render_mockups.py renders assets/*.png from assets/raw/ via assets/mocku
 ## Lessons learned
 
 - Home Assistant only loads an integration that has config entries (or YAML config). Migration code inside a renamed integration never runs on its own; a placeholder in the old domain with a manifest dependency is needed.
-- The Lovelace resource carries `?v=VERSION`; a normal page reload is enough after updates.
+- Updates: the Lovelace resource carries `?v=VERSION` and the files are served with `Cache-Control: no-cache`, so a page reload is enough. Pages that stay open (companion app, wall panels) keep the old card code; the card compares its VERSION with `sleek_school_schedule/version` on every reconnect and shows a tap-to-reload hint (at most once per version, sessionStorage).
 - HACS cannot use private repositories at all.

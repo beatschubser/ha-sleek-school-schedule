@@ -6,7 +6,8 @@
     "child_not_found": "Geen lesrooster gevonden voor \"{name}\".",
     "loading": "Laden...",
     "empty": "Het lesrooster is nog leeg. Bewerk het dashboard en open deze kaart om het in te vullen.",
-    "break": "Pauze"
+    "break": "Pauze",
+    "update_available": "Sleek School Schedule is bijgewerkt. Tik hier om te herladen."
   },
   "editor": {
     "card": "Kaart",

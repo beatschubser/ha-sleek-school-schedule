@@ -78,7 +78,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     websocket_api.async_register(hass)
 
     if hass.http is not None:
-        await frontend_resource.async_register_static(hass)
+        await frontend_resource.async_register_view(hass)
 
         async def _register_card(_hass: HomeAssistant) -> None:
             try:

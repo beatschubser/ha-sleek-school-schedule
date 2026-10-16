@@ -3,7 +3,7 @@
  * Texts: frontend/i18n/<language>.json, English is the fallback for missing keys.
  */
 
-const VERSION = "2.1.0-beta.1";
+const VERSION = "2.1.0-beta.2";
 const I18N_URL = "/sleek_school_schedule_files/i18n/";
 const LANGUAGES = ["en", "de", "fr", "nl", "es", "it", "pl"];
 const DAYS = [0, 1, 2, 3, 4]; // Monday to Friday
@@ -85,6 +85,20 @@ const parseTime = (v) => {
   const m = String(v || "").trim().match(/^(\d{1,2})[:.](\d{2})$/);
   if (!m || +m[1] > 23 || +m[2] > 59) return null;
   return `${m[1].padStart(2, "0")}:${m[2]}`;
+};
+const sessionGet = (key) => {
+  try {
+    return sessionStorage.getItem(key);
+  } catch (e) {
+    return null;
+  }
+};
+const sessionSet = (key, value) => {
+  try {
+    sessionStorage.setItem(key, value);
+  } catch (e) {
+    /* storage blocked: nothing to remember */
+  }
 };
 const uid = () => "s" + Math.random().toString(36).slice(2, 10);
 const hue = (s) => {
@@ -197,12 +211,38 @@ class SleekSchoolScheduleCard extends HTMLElement {
     this._unsub = this._hass.connection
       .subscribeMessage(() => this._load(), { type: `${WS}/subscribe` })
       .catch(() => (this._unsub = null));
+    // "ready" fires after every reconnect, e.g. when Home Assistant restarted after an update
+    this._onReady = () => this._checkVersion();
+    this._hass.connection.addEventListener?.("ready", this._onReady);
+    this._checkVersion();
   }
 
   async _unsubscribe() {
     const p = this._unsub;
     this._unsub = null;
+    if (this._onReady) this._hass?.connection?.removeEventListener?.("ready", this._onReady);
+    this._onReady = null;
     if (p) (await p)?.();
+  }
+
+  /** A newer integration is running than this card code (page still open from before the update). */
+  async _checkVersion() {
+    let version;
+    try {
+      ({ version } = await this._hass.callWS({ type: `${WS}/version` }));
+    } catch (e) {
+      return; // integration not restarted yet (command unknown)
+    }
+    const outdated = version !== VERSION && !sessionGet(`sss-reloaded-${version}`);
+    if (outdated !== !!this._outdated) {
+      this._outdated = outdated ? version : null;
+      this._render();
+    }
+  }
+
+  _reloadPage() {
+    sessionSet(`sss-reloaded-${this._outdated}`, "1"); // reload at most once per version
+    location.reload();
   }
 
   async _load() {
@@ -241,7 +281,12 @@ class SleekSchoolScheduleCard extends HTMLElement {
     else if (!this._plan) body = `<div class="msg">${esc(this.t("card.loading"))}</div>`;
     else body = this._renderView();
 
-    this.shadowRoot.innerHTML = `<style>${BASE_STYLE}${VIEW_STYLE}</style><ha-card class="${esc(this._appearance())}" lang="${this._lang}">${this._renderHeader()}${body}</ha-card>`;
+    const update = this._outdated ? `<button class="update" data-reload>${esc(this.t("card.update_available"))}</button>` : "";
+    this.shadowRoot.innerHTML = `<style>${BASE_STYLE}${VIEW_STYLE}</style><ha-card class="${esc(this._appearance())}" lang="${this._lang}">${update}${this._renderHeader()}${body}</ha-card>`;
+    this.shadowRoot.querySelector("[data-reload]")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this._reloadPage();
+    });
     this.shadowRoot.querySelectorAll("[data-tab]").forEach((el) =>
       el.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -770,6 +815,7 @@ const VIEW_STYLE = `
 ha-card.mode-light { color-scheme:light; --primary-text-color:#212121; --secondary-text-color:#727272; --divider-color:rgba(0,0,0,.12); --secondary-background-color:#e5e5e5; --card-background-color:#fff; --ha-card-background:#fff; --ha-card-border-color:#e0e0e0; }
 ha-card.mode-dark { color-scheme:dark; --primary-text-color:#e1e1e1; --secondary-text-color:#9b9b9b; --divider-color:rgba(225,225,225,.12); --secondary-background-color:#282828; --card-background-color:#1c1c1c; --ha-card-background:#1c1c1c; --ha-card-border-color:rgba(225,225,225,.12); }
 ha-card { display:block; padding: 12px 12px 14px; overflow:hidden; color:var(--primary-text-color); container-type:inline-size; }
+.update { display:block; width:100%; margin:0 0 10px; padding:8px 12px; font:inherit; font-size:.92em; text-align:center; cursor:pointer; border:none; border-radius:8px; background:color-mix(in srgb, var(--primary-color) 18%, transparent); color:var(--primary-text-color); }
 .head { display:flex; align-items:center; gap:8px; margin-bottom:10px; min-height:36px; }
 .title { font-size:1.3em; font-weight:500; flex:1; padding-left:4px; }
 .dayhead.today { background:var(--primary-color); color:var(--text-primary-color, #fff); }

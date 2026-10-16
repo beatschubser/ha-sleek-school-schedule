@@ -6,7 +6,8 @@
     "child_not_found": "No timetable found for \"{name}\".",
     "loading": "Loading...",
     "empty": "The timetable is still empty. To fill it in, edit the dashboard and open this card.",
-    "break": "Break"
+    "break": "Break",
+    "update_available": "Sleek School Schedule was updated. Tap here to reload."
   },
   "editor": {
     "card": "Card",

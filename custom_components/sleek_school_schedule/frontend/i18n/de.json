@@ -6,7 +6,8 @@
     "child_not_found": "Kein Stundenplan für \"{name}\" gefunden.",
     "loading": "Lade...",
     "empty": "Der Stundenplan ist noch leer. Zum Befüllen das Dashboard bearbeiten und diese Karte öffnen.",
-    "break": "Pause"
+    "break": "Pause",
+    "update_available": "Sleek School Schedule wurde aktualisiert. Hier tippen zum Neuladen."
   },
   "editor": {
     "card": "Karte",

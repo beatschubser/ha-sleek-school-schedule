@@ -6,7 +6,8 @@
     "child_not_found": "Nie znaleziono planu lekcji dla \"{name}\".",
     "loading": "Ładowanie...",
     "empty": "Plan lekcji jest jeszcze pusty. Aby go uzupełnić, edytuj dashboard i otwórz tę kartę.",
-    "break": "Przerwa"
+    "break": "Przerwa",
+    "update_available": "Sleek School Schedule został zaktualizowany. Dotknij tutaj, aby odświeżyć."
   },
   "editor": {
     "card": "Karta",

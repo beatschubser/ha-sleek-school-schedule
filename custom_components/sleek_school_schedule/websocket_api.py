@@ -10,7 +10,7 @@ from homeassistant.components import websocket_api
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 
-from .const import DOMAIN, SIGNAL_UPDATED_ANY, SLOT_TYPES, WEEKDAYS
+from .const import DOMAIN, SIGNAL_UPDATED_ANY, SLOT_TYPES, VERSION, WEEKDAYS
 from .logic import to_min
 
 TIME = vol.Match(r"^([01]\d|2[0-3]):[0-5]\d$")
@@ -73,6 +73,14 @@ def async_register(hass: HomeAssistant) -> None:
     websocket_api.async_register_command(hass, ws_get)
     websocket_api.async_register_command(hass, ws_save)
     websocket_api.async_register_command(hass, ws_subscribe)
+    websocket_api.async_register_command(hass, ws_version)
+
+
+@websocket_api.websocket_command({vol.Required("type"): "sleek_school_schedule/version"})
+@callback
+def ws_version(hass, connection, msg):
+    """Version of the running integration; the card compares it with its own after updates."""
+    connection.send_result(msg["id"], {"version": VERSION})
 
 
 @websocket_api.websocket_command({vol.Required("type"): "sleek_school_schedule/subscribe"})

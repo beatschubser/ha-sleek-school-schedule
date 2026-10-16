@@ -6,7 +6,8 @@
     "child_not_found": "Nessun orario trovato per \"{name}\".",
     "loading": "Caricamento...",
     "empty": "L'orario è ancora vuoto. Per compilarlo, modifica la plancia e apri questa scheda.",
-    "break": "Intervallo"
+    "break": "Intervallo",
+    "update_available": "Sleek School Schedule è stato aggiornato. Tocca qui per ricaricare."
   },
   "editor": {
     "card": "Scheda",

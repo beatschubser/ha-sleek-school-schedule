@@ -9,7 +9,7 @@
  * Weekdays are numbered like in the integration: 0 = Monday ... 6 = Sunday.
  */
 
-const VERSION = "2.3.0-beta.2";
+const VERSION = "2.3.0";
 const WS = "sleek_school_schedule";
 const I18N_URL = "/sleek_school_schedule_files/i18n/";
 const LANGUAGES = ["en", "de", "fr", "nl", "es", "it", "pl"];

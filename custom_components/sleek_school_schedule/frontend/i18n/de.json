@@ -7,7 +7,8 @@
     "loading": "Lade...",
     "empty": "Der Stundenplan ist noch leer. Zum Befüllen das Dashboard bearbeiten und diese Karte öffnen.",
     "break": "Pause",
-    "update_available": "Sleek School Schedule wurde aktualisiert. Hier tippen zum Neuladen."
+    "update_available": "Sleek School Schedule wurde aktualisiert. Hier tippen zum Neuladen.",
+    "restart_needed": "Sleek School Schedule wurde aktualisiert. Bitte Home Assistant neu starten, um das Update abzuschließen."
   },
   "editor": {
     "card": "Karte",

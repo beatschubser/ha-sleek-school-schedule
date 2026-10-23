@@ -7,7 +7,8 @@
     "loading": "Laden...",
     "empty": "Het lesrooster is nog leeg. Bewerk het dashboard en open deze kaart om het in te vullen.",
     "break": "Pauze",
-    "update_available": "Sleek School Schedule is bijgewerkt. Tik hier om te herladen."
+    "update_available": "Sleek School Schedule is bijgewerkt. Tik hier om te herladen.",
+    "restart_needed": "Sleek School Schedule is bijgewerkt. Start Home Assistant opnieuw om de update te voltooien."
   },
   "editor": {
     "card": "Kaart",

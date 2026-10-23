@@ -7,7 +7,8 @@
     "loading": "Cargando...",
     "empty": "El horario todavía está vacío. Para rellenarlo, edita el panel y abre esta tarjeta.",
     "break": "Recreo",
-    "update_available": "Sleek School Schedule se ha actualizado. Toca aquí para recargar."
+    "update_available": "Sleek School Schedule se ha actualizado. Toca aquí para recargar.",
+    "restart_needed": "Sleek School Schedule se ha actualizado. Reinicia Home Assistant para completar la actualización."
   },
   "editor": {
     "card": "Tarjeta",

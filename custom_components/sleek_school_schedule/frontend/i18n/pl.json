@@ -7,7 +7,8 @@
     "loading": "Ładowanie...",
     "empty": "Plan lekcji jest jeszcze pusty. Aby go uzupełnić, edytuj dashboard i otwórz tę kartę.",
     "break": "Przerwa",
-    "update_available": "Sleek School Schedule został zaktualizowany. Dotknij tutaj, aby odświeżyć."
+    "update_available": "Sleek School Schedule został zaktualizowany. Dotknij tutaj, aby odświeżyć.",
+    "restart_needed": "Sleek School Schedule został zaktualizowany. Uruchom ponownie Home Assistant, aby dokończyć aktualizację."
   },
   "editor": {
     "card": "Karta",

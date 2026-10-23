@@ -9,7 +9,7 @@
  * Weekdays are numbered like in the integration: 0 = Monday ... 6 = Sunday.
  */
 
-const VERSION = "2.3.0-beta.1";
+const VERSION = "2.3.0-beta.2";
 const WS = "sleek_school_schedule";
 const I18N_URL = "/sleek_school_schedule_files/i18n/";
 const LANGUAGES = ["en", "de", "fr", "nl", "es", "it", "pl"];
@@ -187,6 +187,41 @@ const sessionSet = (key, value) => {
   }
 };
 
+/* ---------------------------------------------------------------------
+ * Updates: card code and integration must have the same version
+ * --------------------------------------------------------------------- */
+
+/** Negative if version a is older than b. "2.3.0-beta.1" is older than "2.3.0". */
+const compareVersions = (a, b) => {
+  const parse = (v) => {
+    const [main, pre = ""] = String(v).split("-");
+    return { numbers: main.split(".").map(Number), pre };
+  };
+  const x = parse(a);
+  const y = parse(b);
+  for (let i = 0; i < 3; i++) if ((x.numbers[i] || 0) !== (y.numbers[i] || 0)) return (x.numbers[i] || 0) - (y.numbers[i] || 0);
+  if (x.pre === y.pre) return 0;
+  if (!x.pre || !y.pre) return x.pre ? -1 : 1; // a pre-release comes before the release
+  return x.pre.localeCompare(y.pre, "en", { numeric: true });
+};
+
+/**
+ * Compares the running integration with this card code:
+ * "restart" = the update was downloaded but Home Assistant still runs the old integration,
+ * "reload"  = the page still runs old card code (Home Assistant was restarted after an update),
+ * null      = same version (or the integration is too old to tell).
+ */
+const checkVersion = async (hass) => {
+  let version;
+  try {
+    ({ version } = await hass.callWS({ type: `${WS}/version` }));
+  } catch (e) {
+    return null;
+  }
+  if (version === VERSION) return null;
+  return { state: compareVersions(version, VERSION) < 0 ? "restart" : "reload", version };
+};
+
 /* =====================================================================
  * Card (display only)
  * ===================================================================== */
@@ -316,17 +351,12 @@ class SleekSchoolScheduleCard extends HTMLElement {
     this._render();
   }
 
-  /** A newer integration is running than this card code (page still open from before an update). */
+  /** Shows a hint when Home Assistant has to be restarted or the page reloaded after an update. */
   async _checkVersion() {
-    let version;
-    try {
-      ({ version } = await this._hass.callWS({ type: `${WS}/version` }));
-    } catch (e) {
-      return; // integration not restarted yet (command unknown)
-    }
-    const outdated = version !== VERSION && !sessionGet(`sss-reloaded-${version}`);
-    if (outdated !== !!this._outdated) {
-      this._outdated = outdated ? version : null;
+    let update = await checkVersion(this._hass);
+    if (update?.state === "reload" && sessionGet(`sss-reloaded-${update.version}`)) update = null; // reload at most once per version
+    if (JSON.stringify(update) !== JSON.stringify(this._update ?? null)) {
+      this._update = update;
       this._render();
     }
   }
@@ -335,7 +365,7 @@ class SleekSchoolScheduleCard extends HTMLElement {
 
   _onClick(e) {
     if (e.target.closest("[data-reload]")) {
-      sessionSet(`sss-reloaded-${this._outdated}`, "1"); // reload at most once per version
+      sessionSet(`sss-reloaded-${this._update.version}`, "1");
       location.reload();
       return;
     }
@@ -382,7 +412,9 @@ class SleekSchoolScheduleCard extends HTMLElement {
     else if (!this._plan) body = `<div class="msg">${esc(this.t("card.loading"))}</div>`;
     else body = this._renderView();
 
-    const update = this._outdated ? `<button class="update" data-reload>${esc(this.t("card.update_available"))}</button>` : "";
+    let update = "";
+    if (this._update?.state === "reload") update = `<button class="update" data-reload>${esc(this.t("card.update_available"))}</button>`;
+    if (this._update?.state === "restart") update = `<div class="update">${esc(this.t("card.restart_needed"))}</div>`;
     // "light" or "dark" forces the colors, "auto" follows the theme
     this._card.className = ["light", "dark"].includes(this._config.appearance) ? `mode-${this._config.appearance}` : "";
     this._card.lang = this._lang;
@@ -509,6 +541,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     this._lang = pickLanguage(this._hass);
     this._locale = pickLocale(this._hass);
     this._s = await loadStrings(this._lang);
+    this._restartNeeded = (await checkVersion(this._hass))?.state === "restart";
     try {
       this._children = await this._hass.callWS({ type: `${WS}/list` });
       this._error = null;
@@ -579,7 +612,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     } else if (first) {
       this._wrap.querySelector(".state").textContent = this.t("editor.unsaved");
       this._wrap.querySelector("[data-act=revert]").disabled = false;
-      this._wrap.querySelector("[data-act=save]").disabled = false;
+      this._wrap.querySelector("[data-act=save]").disabled = !!this._restartNeeded;
       this._wrap.querySelector(".msg.ok")?.remove();
     }
   }
@@ -605,6 +638,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
 
     // Timetable
     html += `<div class="section">${esc(this.t("editor.edit_timetable"))}</div>`;
+    if (this._restartNeeded) html += `<div class="msg err">${esc(this.t("card.restart_needed"))}</div>`;
     if (this._error) html += `<div class="msg err">${esc(this._error)}</div>`;
     if (!this._children.length) {
       html += `<div class="msg">${esc(this.t("card.no_timetables"))}</div>`;
@@ -698,7 +732,7 @@ class SleekSchoolScheduleCardEditor extends HTMLElement {
     html += `<div class="foot">
       <span class="state">${this._dirty ? esc(this.t("editor.unsaved")) : ""}</span>
       <button data-act="revert" ${this._dirty ? "" : "disabled"}>${esc(this.t("editor.discard"))}</button>
-      <button class="primary" data-act="save" ${this._saving || !this._dirty ? "disabled" : ""}>${esc(this.t("editor.save"))}</button>
+      <button class="primary" data-act="save" ${this._saving || !this._dirty || this._restartNeeded ? "disabled" : ""}>${esc(this.t("editor.save"))}</button>
     </div>
     <div class="hint">${esc(this.t("editor.save_hint"))}</div>`;
     return html;
@@ -924,7 +958,8 @@ const VIEW_STYLE = `
 ha-card.mode-light { color-scheme:light; --primary-text-color:#212121; --secondary-text-color:#727272; --divider-color:rgba(0,0,0,.12); --secondary-background-color:#e5e5e5; --card-background-color:#fff; --ha-card-background:#fff; --ha-card-border-color:#e0e0e0; }
 ha-card.mode-dark { color-scheme:dark; --primary-text-color:#e1e1e1; --secondary-text-color:#9b9b9b; --divider-color:rgba(225,225,225,.12); --secondary-background-color:#282828; --card-background-color:#1c1c1c; --ha-card-background:#1c1c1c; --ha-card-border-color:rgba(225,225,225,.12); }
 ha-card { display:block; padding: 12px 12px 14px; overflow:hidden; color:var(--primary-text-color); container-type:inline-size; }
-.update { display:block; width:100%; margin:0 0 10px; padding:8px 12px; font:inherit; font-size:.92em; text-align:center; cursor:pointer; border:none; border-radius:8px; background:color-mix(in srgb, var(--primary-color) 18%, transparent); color:var(--primary-text-color); }
+.update { display:block; box-sizing:border-box; width:100%; margin:0 0 10px; padding:8px 12px; font:inherit; font-size:.92em; text-align:center; border:none; border-radius:8px; background:color-mix(in srgb, var(--primary-color) 18%, transparent); color:var(--primary-text-color); }
+button.update { cursor:pointer; }
 .head { display:flex; align-items:center; gap:8px; margin-bottom:10px; min-height:36px; }
 .title { font-size:1.3em; font-weight:500; flex:1; padding-left:4px; }
 .dayhead.today { background:var(--primary-color); color:var(--text-primary-color, #fff); }

@@ -7,7 +7,8 @@
     "loading": "Loading...",
     "empty": "The timetable is still empty. To fill it in, edit the dashboard and open this card.",
     "break": "Break",
-    "update_available": "Sleek School Schedule was updated. Tap here to reload."
+    "update_available": "Sleek School Schedule was updated. Tap here to reload.",
+    "restart_needed": "Sleek School Schedule was updated. Restart Home Assistant to finish the update."
   },
   "editor": {
     "card": "Card",

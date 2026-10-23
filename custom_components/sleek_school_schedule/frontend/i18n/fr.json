@@ -7,7 +7,8 @@
     "loading": "Chargement...",
     "empty": "L'emploi du temps est encore vide. Pour le remplir, modifiez le tableau de bord et ouvrez cette carte.",
     "break": "Pause",
-    "update_available": "Sleek School Schedule a été mis à jour. Touchez ici pour recharger."
+    "update_available": "Sleek School Schedule a été mis à jour. Touchez ici pour recharger.",
+    "restart_needed": "Sleek School Schedule a été mis à jour. Redémarrez Home Assistant pour terminer la mise à jour."
   },
   "editor": {
     "card": "Carte",

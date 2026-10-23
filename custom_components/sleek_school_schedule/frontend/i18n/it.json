@@ -7,7 +7,8 @@
     "loading": "Caricamento...",
     "empty": "L'orario è ancora vuoto. Per compilarlo, modifica la plancia e apri questa scheda.",
     "break": "Intervallo",
-    "update_available": "Sleek School Schedule è stato aggiornato. Tocca qui per ricaricare."
+    "update_available": "Sleek School Schedule è stato aggiornato. Tocca qui per ricaricare.",
+    "restart_needed": "Sleek School Schedule è stato aggiornato. Riavvia Home Assistant per completare l'aggiornamento."
   },
   "editor": {
     "card": "Scheda",

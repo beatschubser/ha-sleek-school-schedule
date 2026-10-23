@@ -50,52 +50,65 @@ async def async_register_view(hass: HomeAssistant) -> None:
 
 
 def _resources(hass: HomeAssistant):
+    """The dashboard resource collection, or None if dashboards run in YAML mode."""
     lovelace = hass.data.get("lovelace")
     if lovelace is None:
         return None
     if hasattr(lovelace, "resources"):  # HA 2025.2+
-        return lovelace.resources
-    if isinstance(lovelace, dict):  # older versions
-        return lovelace.get("resources")
-    return None
+        resources = lovelace.resources
+    elif isinstance(lovelace, dict):  # older versions
+        resources = lovelace.get("resources")
+    else:
+        return None
+    return resources if hasattr(resources, "async_create_item") else None
 
 
-async def _load(resources) -> None:
+async def _async_loaded(resources) -> None:
     if not getattr(resources, "loaded", True):
         await resources.async_load()
         resources.loaded = True
 
 
-def _base(url) -> str:
-    return str(url or "").split("?")[0]
+def _is_card(item: dict) -> bool:
+    return str(item.get("url") or "").split("?")[0] == CARD_URL
 
 
-async def async_ensure_resource(hass: HomeAssistant) -> bool:
-    """Adds the resource or updates its version. False = not possible (YAML mode)."""
-    resources = _resources(hass)
-    if resources is None or not hasattr(resources, "async_create_item"):
-        return False
-
+async def async_register_card(hass: HomeAssistant) -> None:
+    """Add the card as dashboard resource, or update its ?v= after an update (like HACS does)."""
     url = f"{CARD_URL}?v={VERSION}"
-    await _load(resources)
-
-    for item in resources.async_items():
-        if _base(item.get("url")) == CARD_URL:
-            if item["url"] != url:
+    try:
+        resources = _resources(hass)
+        if resources is not None:
+            await _async_loaded(resources)
+            item = next((i for i in resources.async_items() if _is_card(i)), None)
+            if item is None:
+                await resources.async_create_item({"res_type": "module", "url": url})
+                _LOGGER.info("Timetable card resource %s added", url)
+            elif item["url"] != url:
                 await resources.async_update_item(item["id"], {"res_type": "module", "url": url})
                 _LOGGER.info("Timetable card resource updated to %s", url)
-            return True
+            return
+    except Exception:  # noqa: BLE001 - never block the integration because of the resource
+        _LOGGER.exception("Could not register the timetable card as dashboard resource")
 
-    await resources.async_create_item({"res_type": "module", "url": url})
-    _LOGGER.info("Timetable card resource %s added", url)
-    return True
+    # Dashboards in YAML mode (or an error above): load the card on every page instead
+    from homeassistant.components.frontend import add_extra_js_url
+
+    add_extra_js_url(hass, url)
+    _LOGGER.warning(
+        "Dashboard resources are not in UI mode. Add '%s' as JavaScript module if the timetable card does not load",
+        CARD_URL,
+    )
 
 
 async def async_remove_resource(hass: HomeAssistant) -> None:
-    resources = _resources(hass)
-    if resources is None or not hasattr(resources, "async_delete_item"):
-        return
-    await _load(resources)
-    for item in list(resources.async_items()):
-        if _base(item.get("url")) == CARD_URL:
+    """Remove the dashboard resource (after the last child was removed)."""
+    try:
+        resources = _resources(hass)
+        if resources is None:
+            return
+        await _async_loaded(resources)
+        for item in [i for i in resources.async_items() if _is_card(i)]:
             await resources.async_delete_item(item["id"])
+    except Exception:  # noqa: BLE001
+        _LOGGER.debug("Dashboard resource could not be removed", exc_info=True)

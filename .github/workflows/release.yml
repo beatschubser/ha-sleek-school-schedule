@@ -19,30 +19,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  hassfest:
-    name: Validate (hassfest)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: home-assistant/actions/hassfest@master
-
-  tests:
-    name: Logic tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - run: python3 tests/test_logic.py
-      - run: node --check custom_components/sleek_school_schedule/frontend/sleek-school-schedule-card.js
+  validate:
+    name: Validate
+    uses: ./.github/workflows/validate.yml
 
   release:
     name: Create release
-    needs: [hassfest, tests]
+    needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -86,8 +72,7 @@ jobs:
           {
             echo "## Changes"
             echo
-            # version commits ("Sleek School Schedule 2.1.0") carry no information
-            git log --no-merges --pretty='- %s' "$range" | grep -v -E '^- Sleek School Schedule [0-9]' || true
+            python3 scripts/release_notes.py "$range"
             if [ -n "$previous" ]; then
               echo
               echo "**Full changelog:** https://github.com/${GITHUB_REPOSITORY}/compare/${previous}...v${{ steps.version.outputs.version }}"

@@ -30,6 +30,7 @@ I wanted our school timetables in Home Assistant. The existing integrations I tr
 - The current lesson is highlighted and shows a progress bar. This also works for breaks and afternoon activities.
 - Afternoon activities can be different on every day, for example after-school club until 4 pm on Thursday and basketball afterwards.
 - One timetable per child, shown as tabs in one card or in separate cards.
+- School days can be chosen per child, for example Monday to Saturday.
 - Tap a subject and you see every lesson of that subject in the week.
 - Sensors for the current lesson, the next lesson, the end of lessons and the pickup time, so you can use the timetable in automations.
 - Every subject gets its own color automatically.
@@ -61,7 +62,7 @@ Copy the folder `custom_components/sleek_school_schedule` into the `custom_compo
    type: custom:sleek-school-schedule-card
    ```
 
-3. **Fill in the timetable:** edit the dashboard, open the card and edit the time grid, subjects and afternoon on the left. Click **Save timetable**.
+3. **Fill in the timetable:** edit the dashboard, open the card and edit the school days, time grid, subjects and afternoon on the left. Click **Save timetable**.
 
 The card is registered as a dashboard resource automatically. Only if your dashboards run in YAML mode, add `/sleek_school_schedule_files/sleek-school-schedule-card.js` as a JavaScript module resource yourself.
 
@@ -72,6 +73,10 @@ The card is registered as a dashboard resource automatically. Only if your dashb
 | `child` | Show only this child (name). Without it, all children are shown as tabs. |
 | `title` | Custom title (only shown when the card displays a single child). |
 | `appearance` | `auto` (default, follows your Home Assistant theme), `light` or `dark`. |
+
+All options can be set in the visual card editor. Layout settings of the dashboard (size in sections, visibility) are kept.
+
+The timetable itself (school days, time grid, subjects, afternoon) is not part of the card configuration. It is stored in Home Assistant per child and edited in the same editor, so several cards always show the same data.
 
 ![Card editor](assets/tablet-editor.png)
 
@@ -105,6 +110,10 @@ automation:
         data:
           message: "Emma needs to be picked up in 15 minutes."
 ```
+
+## Reporting problems
+
+Please [open an issue](https://github.com/beatschubser/ha-sleek-school-schedule/issues) and attach the diagnostics: **Settings > Devices & services > Sleek School Schedule**, three dots next to the child, **Download diagnostics**. The file contains the timetable of that child and the current sensor values, nothing else.
 
 ## Translations
 

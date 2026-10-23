@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 BASE = Path(__file__).resolve().parent.parent / "custom_components" / "sleek_school_schedule"
 
 # Load const.py and logic.py as a package without importing Home Assistant
+# (pytest also runs tests/test_*.py with Home Assistant, see tests/conftest.py)
 _pkg = types.ModuleType("sss")
 _pkg.__path__ = [str(BASE)]
 sys.modules["sss"] = _pkg
@@ -37,7 +38,7 @@ def at(day: int, hour: int, minute: int) -> datetime:
 
 
 def sample_plan() -> dict:
-    plan = const.default_plan()  # s1..s8: 8:00, 8:45, break 9:30, 9:45, 10:30, break 11:15, 11:30, 12:15
+    plan = logic.default_plan()  # s1..s8: 8:00, 8:45, break 9:30, 9:45, 10:30, break 11:15, 11:30, 12:15
     plan["days"]["3"] = {"s1": "Maths", "s4": "Art", "s7": "Sport"}  # Thursday
     plan["afternoon"]["3"] = [
         {"name": "Care", "start": "13:00", "end": "16:00"},
@@ -95,8 +96,44 @@ def test_next_is_today_only():
 
 def test_weekend_and_empty_plan():
     assert logic.status(sample_plan(), at(5, 10, 0)).current is None
-    empty = logic.status(const.default_plan(), at(0, 9, 0))
+    empty = logic.status(logic.default_plan(), at(0, 9, 0))
     assert empty.current is None and empty.next is None and empty.pickup is None
+
+
+def test_old_plan_gets_school_days():
+    old = {"slots": [], "days": {"0": {}}, "afternoon": {}}  # saved before version 2.3
+    plan = logic.normalize_plan(old)
+    assert plan["school_days"] == [0, 1, 2, 3, 4]
+    assert set(plan["days"]) == set(plan["afternoon"]) == {"0", "1", "2", "3", "4", "5", "6"}
+
+
+def test_configurable_school_days():
+    plan = sample_plan()
+    plan["days"]["5"] = {"s1": "Latin"}  # Saturday
+    assert logic.status(plan, at(5, 8, 10)).current is None  # Saturday is not a school day yet
+    plan["school_days"] = [0, 1, 2, 3, 4, 5]
+    assert logic.status(plan, at(5, 8, 10)).current.name == "Latin"
+    plan["school_days"] = [0, 1, 2, 4]  # Thursday off
+    assert logic.status(plan, at(3, 8, 10)).current is None
+
+
+def test_next_change_is_next_boundary_or_midnight():
+    plan = sample_plan()
+    assert logic.next_change(plan, at(3, 7, 0)).strftime("%H:%M") == "08:00"
+    assert logic.next_change(plan, at(3, 8, 0)).strftime("%H:%M") == "08:45"  # exactly at a boundary
+    assert logic.next_change(plan, at(3, 8, 44)).strftime("%H:%M") == "08:45"
+    assert logic.next_change(plan, at(3, 16, 30)).strftime("%H:%M") == "17:15"
+    midnight = logic.next_change(plan, at(3, 17, 15))
+    assert (midnight.day, midnight.hour, midnight.minute) == (16, 0, 0)
+    assert logic.next_change(plan, at(5, 10, 0)).day == 18  # weekend: just midnight
+
+
+def test_next_change_over_daylight_saving_time():
+    # Sunday 25 Oct 2026 has 25 hours in Berlin; the next change is still local midnight
+    sunday = datetime(2026, 10, 25, 12, 0, tzinfo=TZ)
+    nxt = logic.next_change(logic.default_plan(), sunday)
+    assert (nxt.day, nxt.hour, nxt.minute) == (26, 0, 0)
+    assert nxt.utcoffset().total_seconds() == 3600
 
 
 if __name__ == "__main__":
